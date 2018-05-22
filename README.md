@@ -19,5 +19,9 @@ bin/console debug:container serializer
 A memu with JMS serialize we can see into the the console
 
 
+We are creating two type service Listener and Handler.
+Watch into service.yml to active one or other.
+
+
 
 A Symfony project created on May 16, 2018, 3:43 pm.
