@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\Article;
+use JMS\Serializer\SerializationContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,17 +42,40 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/articles", name="article_show")
-     * @Method({"GET"})
+     * @Route("/articles/{id}", name="article_show")
      */
-    public function showAction(Article $article)
+    public function showAction()
     {
-        $article = $this->getDoctrine()->getRepository('AppBundle:Article')->findAll();
-        $data = $this->get('jms_serializer')->serialize($article, 'json');
+        $article = new Article();
+        $article
+            ->setTitle('Mon premier article')
+            ->setContent('Le contenu de mon article.')
+        ;
+        $data = $this->get('jms_serializer')->serialize($article, 'json', SerializationContext::create()->setGroups('detail'));
 
         $response = new Response($data);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
     }
+
+
+
+    /**
+     * @Route("/articles", name="article_list")
+     */
+    public function listAction()
+    {
+        $article = $this->getDoctrine()->getRepository('AppBundle:Article')->findAll();
+        $data = $this->get('jms_serializer')->serialize($article, 'json', SerializationContext::create()->setGroups('list'));
+
+        $response = new Response($data);
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+
+
+
 }

@@ -33,3 +33,15 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+
+# Other service in serializer Service Listener Pre seriliation
+#    serializer_listener.article:
+#        class: AppBundle\Serializer\Listener\ArticleListener
+#        tags:
+#            - { name: jms_serializer.event_subscriber }
+
+# service Handler Post Serialisation
+    serializer_handler.article:
+        class: AppBundle\Serializer\Handler\ArticleHandler
+        tags:
+            - { name: jms_serializer.subscribing_handler }
